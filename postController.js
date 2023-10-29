@@ -36,7 +36,7 @@ exports.fetchAllPosts = async (req, res) => {
 
 exports.fetchPost = async (req, res) => {
     try {
-        const id = req.params;
+        const { id } = req.params;
         const post = await BlogModel.findById(id);
         res.status(200).json({
             success: "Success",
