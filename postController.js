@@ -34,6 +34,20 @@ exports.fetchAllPosts = async (req, res) => {
     }
 }
 
+exports.fetchPost = async (req, res) => {
+    try {
+        const id = req.params;
+        const post = await BlogModel.findById(id);
+        res.status(200).json({
+            success: "Success",
+            posts: post
+        })
+    } catch (error) {
+        console.error(`Error: ${error}`);
+        res.status(500).json({ message: "Internal server error" });
+    }
+}
+
 exports.editPost = async (req, res) => {
     try {
         const { id } = req.params;
