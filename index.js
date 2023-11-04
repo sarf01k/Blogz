@@ -13,5 +13,5 @@ dbConnection();
 app.use('/', require('./postRoutes'));
 
 app.listen(port, () => {
-    console.log(`Server listening on port ${port}`);
+    console.log(`Server listening on port ${port}...`);
 })

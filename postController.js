@@ -1,4 +1,3 @@
-const BlogModel = require('./blogPost.model');
 const Post = require('./blogPost.model');
 
 exports.createPost = async (req, res) => {
@@ -23,7 +22,7 @@ exports.createPost = async (req, res) => {
 
 exports.fetchAllPosts = async (req, res) => {
     try {
-        const posts = await BlogModel.find();
+        const posts = await Post.find();
         res.status(200).json({
             success: "Success",
             posts: posts
@@ -37,7 +36,7 @@ exports.fetchAllPosts = async (req, res) => {
 exports.fetchPost = async (req, res) => {
     try {
         const { id } = req.params;
-        const post = await BlogModel.findById(id);
+        const post = await Post.findById(id);
         res.status(200).json({
             success: "Success",
             posts: post
@@ -53,7 +52,7 @@ exports.editPost = async (req, res) => {
         const { id } = req.params;
         const update = req.body;
 
-        const post = await BlogModel.findByIdAndUpdate(id, update, { new: true });
+        const post = await Post.findByIdAndUpdate(id, update, { new: true });
 
         if (!post) {
             return res.status(404).json({
@@ -75,7 +74,7 @@ exports.editPost = async (req, res) => {
 
 exports.deletePost = async (req, res) => {
     try {
-        const post = await BlogModel.findByIdAndDelete({ _id: req.params.id });
+        const post = await Post.findByIdAndDelete({ _id: req.params.id });
 
         if (!post) {
             return res.status(404).json({
