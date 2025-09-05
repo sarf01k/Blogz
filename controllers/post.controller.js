@@ -2,55 +2,69 @@ const Post = require("../models/post.model");
 
 exports.createPost = async (req, res) => {
   try {
-    const { title, content, author } = req.body;
+    const { title, content } = req.body;
+
     if (
       !title ||
       title === "" ||
       !content ||
-      content === "" ||
-      !author ||
-      author === ""
+      content === ""
     ) {
       return res.status(400).json({
-        message: "Please provide title, content and author",
+        success: false,
+        message: "Please provide blog title and content"
       });
     }
 
     const post = await Post.create({ title, content, author });
-    res.status(201).json({
+
+    return res.status(201).json({
+      success: true,
       message: "Post created",
-      post: req.body,
+      post: post
     });
   } catch (error) {
     console.error(`Error: ${error}`);
-    res.status(500).json({ message: "Internal server error" });
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error"
+    });
   }
 };
 
 exports.fetchAllPosts = async (req, res) => {
   try {
     const posts = await Post.find();
-    res.status(200).json({
-      success: "Success",
+
+    return res.status(200).json({
+      success: true,
       posts: posts,
     });
   } catch (error) {
     console.error(`Error: ${error}`);
-    res.status(500).json({ message: "Internal server error" });
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error"
+    });
   }
 };
 
 exports.fetchPost = async (req, res) => {
   try {
     const { id } = req.params;
+
     const post = await Post.findById(id);
-    res.status(200).json({
-      success: "Success",
+
+    return res.status(200).json({
+      success: true,
       posts: post,
     });
   } catch (error) {
     console.error(`Error: ${error}`);
-    res.status(500).json({ message: "Internal server error" });
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error"
+    });
   }
 };
 
@@ -63,17 +77,20 @@ exports.editPost = async (req, res) => {
 
     if (!post) {
       return res.status(404).json({
+        success: false,
         message: "No post was found with the provided ID",
       });
     }
 
-    res.status(200).json({
+    return res.status(200).json({
+      success: true,
       message: "Post updated",
       updatedPost: post,
     });
   } catch (error) {
     console.error(`Error: ${error}`);
-    res.status(500).json({
+    return res.status(500).json({
+      success: false,
       message: "Internal server error",
     });
   }
@@ -85,13 +102,20 @@ exports.deletePost = async (req, res) => {
 
     if (!post) {
       return res.status(404).json({
+        success: false,
         message: "No post with the provided ID found",
       });
     }
 
-    res.status(200).json({ message: "Post deleted" });
+    return res.status(200).json({
+      success: true,
+      message: "Post deleted"
+    });
   } catch (error) {
     console.error(`Error: ${error}`);
-    res.status(500).json({ message: "Internal server error" });
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error"
+    });
   }
 };
