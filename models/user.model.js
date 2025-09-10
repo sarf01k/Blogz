@@ -4,11 +4,13 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
   firstName: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   },
   lastName: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   },
   username: {
     type: String,
@@ -25,10 +27,6 @@ const userSchema = new Schema({
     trim: true
   },
   passwordHash: {
-    type: String,
-    required: true
-  },
-  refreshToken: {
     type: String,
     required: true
   },

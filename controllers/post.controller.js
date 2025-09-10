@@ -2,21 +2,17 @@ const Post = require("../models/post.model");
 
 exports.createPost = async (req, res) => {
   try {
-    const { title, content } = req.body;
+    const { title, subtitle, content } = req.body;
 
-    if (
-      !title ||
-      title === "" ||
-      !content ||
-      content === ""
-    ) {
+    if (!title || !content) {
       return res.status(400).json({
         success: false,
         message: "Please provide blog title and content"
       });
     }
 
-    const post = await Post.create({ title, content, author });
+    const author = `${req.user.firstName} ${req.user.lastName}`
+    const post = await Post.create({ title, subtitle, content, author });
 
     return res.status(201).json({
       success: true,

@@ -2,11 +2,19 @@ const User = require("../models/user.model");
 const bcrypt = require("bcrypt");
 const Username = require("../models/username.model");
 const generateAccessToken = require("../utils/accessToken");
-const generateRefreshToken = require("../utils/refreshToken");
 
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res
+        .status(400)
+        .json({
+          success: false,
+          message: "Please fill all fields"
+        })
+    }
 
     const existingUser = await User.findOne({ email });
 
@@ -17,7 +25,7 @@ exports.login = async (req, res) => {
       })
     }
 
-    const passwordIsMatch = bcrypt.compare(password, existingUser.passwordHash);
+    const passwordIsMatch = await bcrypt.compare(password, existingUser.passwordHash);
 
     if (!passwordIsMatch) {
       return res.status(400).json({
@@ -27,20 +35,10 @@ exports.login = async (req, res) => {
     }
 
     const accessToken = generateAccessToken(existingUser._id);
-    const refreshToken = generateRefreshToken(existingUser._id);
-
-    await User.findByIdAndUpdate(
-      existingUser.id,
-      {
-        refreshToken: refreshToken
-      },
-      { new: true }
-    );
 
     return res
       .status(200)
       .cookie("accessToken", accessToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 })
-      .cookie("refreshToken", refreshToken, { httpOnly: true, maxAge: 3 * 24 * 60 * 60 * 1000 })
       .json({
         success: true,
         message: "Logged in successfully"
@@ -54,6 +52,15 @@ exports.login = async (req, res) => {
 exports.signUp = async (req, res) => {
   try {
     const { firstName, lastName, username, email, password } = req.body;
+
+    if (!firstName || !lastName || !username || !email || !password) {
+      return res
+        .status(400)
+        .json({
+          success: false,
+          message: "Please fill all fields"
+        })
+    }
 
     const existingUser = await User.findOne({ email });
 
@@ -103,11 +110,88 @@ exports.signUp = async (req, res) => {
   }
 }
 
+exports.changePassword = async (req, res) => {
+  try {
+    const { newPassword } = req.body;
+
+    if (!newPassword) {
+      return res
+        .status(400)
+        .json({
+          success: false,
+          message: "Enter a new password"
+        })
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    await User.updateOne({ _id: req.user.id }, { $set: { passwordHash: hashedPassword } }, { new: true });
+
+    return res
+      .status(200)
+      .json({
+        success: true,
+        message: "Password updated successfully"
+      })
+  } catch (error) {
+    console.error(`Error: ${error}`);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error"
+    });
+  }
+}
+
+exports.updateUsername = async (req, res) => {
+  try {
+    const { newUsername } = req.body;
+
+    if (!newUsername) {
+      return res
+        .status(400)
+        .json({
+          success: false,
+          message: "Enter a new username"
+        })
+    }
+
+    const usernameExists = await User.findOne({ username: newUsername });
+
+    if (usernameExists) {
+      return res
+        .status(400)
+        .json({
+          success: false,
+          message: "This username is taken"
+        })
+    }
+
+    await Username.updateOne({ username: req.user.username }, { $set: { endDate: Date(Date.now) } }, { new: true });
+    await User.updateOne({ _id: req.user._id }, { $set: { username: newUsername } }, { new: true });
+    await Username.create({
+      userId: req.user.id,
+      username: newUsername
+    });
+
+    return res
+      .status(200)
+      .json({
+        success: true,
+        message: "Username updated successfully"
+      })
+  } catch (error) {
+    console.error(`Error: ${error}`);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error"
+    });
+  }
+}
+
 exports.logout = async (req, res) => {
   try {
     return res
       .clearCookie("accessToken")
-      .clearCookie("refreshToken")
       .json({
         success: true,
         message: "Logged out successfully"

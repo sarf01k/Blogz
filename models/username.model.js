@@ -9,7 +9,8 @@ const usernameSchema = new Schema({
   },
   username: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   startDate: {
     type: Date,
