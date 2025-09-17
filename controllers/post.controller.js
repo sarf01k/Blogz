@@ -54,7 +54,7 @@ exports.fetchAllPosts = async (req, res) => {
 exports.fetchPostById = async (req, res) => {
   try {
     const { username, id } = req.params;
-    validateMongoDbId(id);
+    validateMongoDbId
 
     const user = await User.findOne({ username });
     const post = await Post.findOne({ author: user._id, _id: id });
