@@ -3,16 +3,17 @@ const {
   fetchAllPosts,
   createPost,
   deletePost,
-  editPost,
-  fetchPost,
+  updatePost,
+  fetchPostById,
 } = require("../controllers/post.controller");
+const { deserializeUser } = require("../middleware/deserializeUser");
 
-const postRouter = express.Router();
+const postRouter = express.Router({ mergeParams: true });
 
-postRouter.post("/create-post", createPost);
-postRouter.get("/posts", fetchAllPosts);
-postRouter.get("/posts/:id", fetchPost);
-postRouter.patch("/update-post/:id", editPost);
-postRouter.delete("/delete-post/:id", deletePost);
+postRouter.post("/", deserializeUser, createPost);
+postRouter.get("/", fetchAllPosts);
+postRouter.get("/:id", fetchPostById);
+postRouter.patch("/:id", deserializeUser, updatePost);
+postRouter.delete("/:id", deserializeUser, deletePost);
 
 module.exports = postRouter;

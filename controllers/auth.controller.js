@@ -44,7 +44,7 @@ exports.login = async (req, res) => {
         message: "Logged in successfully"
       })
   } catch (error) {
-    console.error(`Error: ${error}`);
+    console.error(`${error}`);
     return res.status(500).json({ message: "Internal server error" });
   }
 }
@@ -102,7 +102,7 @@ exports.signUp = async (req, res) => {
         message: "User created successfully"
       })
   } catch (error) {
-    console.error(`Error: ${error}`);
+    console.error(`${error}`);
     return res.status(500).json({
       success: false,
       message: "Internal server error"
@@ -134,7 +134,7 @@ exports.changePassword = async (req, res) => {
         message: "Password updated successfully"
       })
   } catch (error) {
-    console.error(`Error: ${error}`);
+    console.error(`${error}`);
     return res.status(500).json({
       success: false,
       message: "Internal server error"
@@ -180,7 +180,7 @@ exports.updateUsername = async (req, res) => {
         message: "Username updated successfully"
       })
   } catch (error) {
-    console.error(`Error: ${error}`);
+    console.error(`${error}`);
     return res.status(500).json({
       success: false,
       message: "Internal server error"
@@ -197,7 +197,7 @@ exports.logout = async (req, res) => {
         message: "Logged out successfully"
       });
   } catch (error) {
-    console.error(`Error: ${error}`);
+    console.error(`${error}`);
     return res.status(500).json({
       success: false,
       message: "Internal server error"

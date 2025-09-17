@@ -1,4 +1,6 @@
 const Post = require("../models/post.model");
+const User = require("../models/user.model");
+const validateMongoDbId = require("../utils/validateMongoDBId");
 
 exports.createPost = async (req, res) => {
   try {
@@ -11,7 +13,7 @@ exports.createPost = async (req, res) => {
       });
     }
 
-    const author = `${req.user.firstName} ${req.user.lastName}`
+    const author = req.user._id
     const post = await Post.create({ title, subtitle, content, author });
 
     return res.status(201).json({
@@ -20,7 +22,7 @@ exports.createPost = async (req, res) => {
       post: post
     });
   } catch (error) {
-    console.error(`Error: ${error}`);
+    console.error(`${error}`);
     return res.status(500).json({
       success: false,
       message: "Internal server error"
@@ -28,16 +30,20 @@ exports.createPost = async (req, res) => {
   }
 };
 
+// for a user
 exports.fetchAllPosts = async (req, res) => {
   try {
-    const posts = await Post.find();
+    const { username } = req.params;
+
+    const user = await User.findOne({ username });
+    const posts = await Post.find({ author: user._id });
 
     return res.status(200).json({
       success: true,
       posts: posts,
     });
   } catch (error) {
-    console.error(`Error: ${error}`);
+    console.error(`${error}`);
     return res.status(500).json({
       success: false,
       message: "Internal server error"
@@ -45,18 +51,27 @@ exports.fetchAllPosts = async (req, res) => {
   }
 };
 
-exports.fetchPost = async (req, res) => {
+exports.fetchPostById = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { username, id } = req.params;
+    validateMongoDbId(id);
 
-    const post = await Post.findById(id);
+    const user = await User.findOne({ username });
+    const post = await Post.findOne({ author: user._id, _id: id });
+
+    if (!user || !post) {
+      return res.status(404).json({
+        success: false,
+        message: "Post not found",
+      });
+    }
 
     return res.status(200).json({
       success: true,
-      posts: post,
+      post: post,
     });
   } catch (error) {
-    console.error(`Error: ${error}`);
+    console.error(`${error}`);
     return res.status(500).json({
       success: false,
       message: "Internal server error"
@@ -64,9 +79,11 @@ exports.fetchPost = async (req, res) => {
   }
 };
 
-exports.editPost = async (req, res) => {
+exports.updatePost = async (req, res) => {
   try {
     const { id } = req.params;
+    validateMongoDbId(id);
+
     const update = req.body;
 
     const post = await Post.findByIdAndUpdate(id, update, { new: true });
@@ -84,7 +101,7 @@ exports.editPost = async (req, res) => {
       updatedPost: post,
     });
   } catch (error) {
-    console.error(`Error: ${error}`);
+    console.error(`${error}`);
     return res.status(500).json({
       success: false,
       message: "Internal server error",
@@ -94,7 +111,10 @@ exports.editPost = async (req, res) => {
 
 exports.deletePost = async (req, res) => {
   try {
-    const post = await Post.findByIdAndDelete({ _id: req.params.id });
+    const { id } = req.params;
+    validateMongoDbId(id);
+
+    const post = await Post.findByIdAndDelete(id);
 
     if (!post) {
       return res.status(404).json({
@@ -108,7 +128,7 @@ exports.deletePost = async (req, res) => {
       message: "Post deleted"
     });
   } catch (error) {
-    console.error(`Error: ${error}`);
+    console.error(`${error}`);
     return res.status(500).json({
       success: false,
       message: "Internal server error"
