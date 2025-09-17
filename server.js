@@ -16,7 +16,7 @@ const port = process.env.PORT || 3000;
 connectToDB();
 app.use("/api/@:username", postRouter);
 app.use("/api/auth", authRouter);
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
   res.status(200).json("Blogz API");
 });
 
