@@ -1,6 +1,6 @@
 const Post = require("../models/post.model");
 const User = require("../models/user.model");
-const validateMongoDbId = require("../utils/validateMongoDBId");
+const validateMongoDbId = require("../utils/validateMongoId");
 
 exports.createPost = async (req, res) => {
   try {
