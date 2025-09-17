@@ -17,7 +17,7 @@ connectToDB();
 app.use("/api/@:username", postRouter);
 app.use("/api/auth", authRouter);
 app.get("/", async (req, res) => {
-  res.status(200).json("Blogz API");
+  res.status(200).send("Blogz API");
 });
 
 app.listen(port, () => {
