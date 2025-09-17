@@ -15,7 +15,10 @@ const port = process.env.PORT || 3000;
 
 connectToDB();
 app.use("/api/@:username", postRouter);
-app.use("/api/auth", authRouter)
+app.use("/api/auth", authRouter);
+app.get("/api", (req, res) => {
+  res.status(200).json("Blogz API");
+});
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}...`);
