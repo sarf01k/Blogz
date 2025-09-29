@@ -1,5 +1,6 @@
 const Post = require("../models/post.model");
 const User = require("../models/user.model");
+const Username = require("../models/username.model");
 const validateMongoDbId = require("../utils/validateMongoId");
 
 exports.createPost = async (req, res) => {
@@ -35,8 +36,8 @@ exports.fetchAllPosts = async (req, res) => {
   try {
     const { username } = req.params;
 
-    const user = await User.findOne({ username });
-    const posts = await Post.find({ author: user._id });
+    const user = await Username.findOne({ username });
+    const posts = await Post.find({ author: user.userId });
 
     return res.status(200).json({
       success: true,
@@ -54,10 +55,10 @@ exports.fetchAllPosts = async (req, res) => {
 exports.fetchPostById = async (req, res) => {
   try {
     const { username, id } = req.params;
-    validateMongoDbId
+    validateMongoDbId(id);
 
-    const user = await User.findOne({ username });
-    const post = await Post.findOne({ author: user._id, _id: id });
+    const user = await Username.findOne({ username });
+    const post = await Post.findOne({ author: user.userId, _id: id });
 
     if (!user || !post) {
       return res.status(404).json({
