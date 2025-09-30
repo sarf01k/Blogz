@@ -19,7 +19,7 @@ connectToDB();
 app.use("/api/@:username", postRouter);
 app.use("/api/auth", authRouter);
 app.get(
-  "/api/docs", // The path where your API reference will be accessible
+  "/", // The path where your API reference will be accessible
   apiReference({
     url: '/openapi.yaml', // The path to your OpenAPI/Swagger spec file
     theme: 'purple', // Optional: Choose a theme (e.g., 'default', 'purple', 'moon')
