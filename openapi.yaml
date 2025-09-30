@@ -1,0 +1,824 @@
+openapi: 3.0.0
+info:
+  title: Blogz
+  version: 1.0.0
+  description: ""
+servers:
+  - url: http://localhost:3000
+  - url: https://blogz-neon.vercel.app
+paths:
+  /api/auth/signup:
+    parameters: []
+    post:
+      summary: Sign Up
+      tags: &ref_0
+        - Authentication
+      parameters: []
+      responses:
+        "201":
+          headers:
+            X-Powered-By:
+              schema:
+                deprecated: false
+              example: Express
+            Content-Type:
+              schema:
+                deprecated: false
+              example: application/json
+            Content-Length:
+              schema:
+                deprecated: false
+              example: "54"
+            ETag:
+              schema:
+                deprecated: false
+              example: W/"36-MmDe8BssOv3Mbe83+wQb6lPPsNA"
+            Date:
+              schema:
+                deprecated: false
+              example: Mon, 29 Sep 2025 22:38:22 GMT
+            Connection:
+              schema:
+                deprecated: false
+              example: keep-alive
+            Keep-Alive:
+              schema:
+                deprecated: false
+              example: timeout=5
+          description: 201 Created
+          content:
+            application/json:
+              schema: {}
+              example:
+                success: true
+                message: User created successfully
+        "400":
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+              example: Express
+            Content-Type:
+              schema:
+                type: string
+              example: application/json
+            Content-Length:
+              schema:
+                type: integer
+              example: "54"
+            ETag:
+              schema:
+                type: string
+              example: W/"36-EAvnEptumId5e9Qhf9lo558Zs8E"
+            Date:
+              schema:
+                type: string
+              example: Mon, 29 Sep 2025 22:38:46 GMT
+            Connection:
+              schema:
+                type: string
+              example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+              example: timeout=5
+          description: 400 Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+              example:
+                success: false
+                message: Email already registered
+        default:
+          headers:
+            Content-Type:
+              schema:
+                type: string
+              example: application/json
+          description: 500 Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+              example:
+                success: false
+                message: Internal server error
+      requestBody:
+        content:
+          application/json:
+            schema: {}
+            example:
+              firstName: Isaac
+              lastName: Sarfo
+              username: koolboi
+              email: isaacsaro2004@gmail.com
+              password: isaac
+  /api/auth/login:
+    parameters: []
+    post:
+      summary: Log In
+      tags: *ref_0
+      parameters: []
+      responses:
+        "200":
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+              example: Express
+            Set-Cookie:
+              schema:
+                type: string
+              example: >-
+                accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZGIwYTVkZDk5YzlmY2M0ODRlNjVlNyIsImlhdCI6MTc1OTE4NTg3MywiZXhwIjoxNzU5MjcyMjczfQ.RqbqI6NNGepiI9WCl3kpCyaf6jqFxYgu8pCyecBvngg;
+                Max-Age=86400; Path=/; Expires=Tue, 30 Sep 2025 22:44:33 GMT;
+                HttpOnly
+            Content-Type:
+              schema:
+                type: string
+              example: application/json
+            Content-Length:
+              schema:
+                type: integer
+              example: "51"
+            ETag:
+              schema:
+                type: string
+              example: W/"33-vs2QrzzRoR1nDYvzxoZK4dLj8rs"
+            Date:
+              schema:
+                type: string
+              example: Mon, 29 Sep 2025 22:44:33 GMT
+            Connection:
+              schema:
+                type: string
+              example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+              example: timeout=5
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+              example:
+                success: true
+                message: Logged in successfully
+        "400":
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+              example: Express
+            Content-Type:
+              schema:
+                type: string
+              example: application/json
+            Content-Length:
+              schema:
+                type: integer
+              example: "48"
+            ETag:
+              schema:
+                type: string
+              example: W/"30-otbQ71eP+X+za3b+ANQEDTjK6cg"
+            Date:
+              schema:
+                type: string
+              example: Mon, 29 Sep 2025 22:45:07 GMT
+            Connection:
+              schema:
+                type: string
+              example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+              example: timeout=5
+          description: 400 Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+              example:
+                success: false
+                message: Incorrect password
+        "404":
+          headers:
+            X-Powered-By:
+              schema:
+                deprecated: false
+              example: Express
+            Content-Type:
+              schema:
+                deprecated: false
+              example: application/json
+            Content-Length:
+              schema:
+                deprecated: false
+              example: "47"
+            ETag:
+              schema:
+                deprecated: false
+              example: W/"2f-fpUEiuRxs7OCq3PBzIdOapaGfmU"
+            Date:
+              schema:
+                deprecated: false
+              example: Mon, 29 Sep 2025 22:47:29 GMT
+            Connection:
+              schema:
+                deprecated: false
+              example: keep-alive
+            Keep-Alive:
+              schema:
+                deprecated: false
+              example: timeout=5
+          description: 404 Not Found
+          content:
+            application/json:
+              schema: {}
+              example:
+                success: false
+                message: Account not found
+        "500":
+          headers:
+            Content-Type:
+              schema:
+                type: string
+              example: application/json
+          description: 500 Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+              example:
+                success: false
+                message: Internal server error
+      requestBody:
+        content:
+          application/json:
+            schema: {}
+            example:
+              email: isaacsarfo2004@gmail.com
+              password: isaac
+  /api/auth/logout:
+    parameters: []
+    post:
+      summary: Log Out
+      tags: *ref_0
+      parameters: []
+      responses:
+        "200":
+          headers:
+            X-Powered-By:
+              schema:
+                deprecated: false
+              example: Express
+            Set-Cookie:
+              schema:
+                deprecated: false
+              example: accessToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT
+            Content-Type:
+              schema:
+                deprecated: false
+              example: application/json
+            Content-Length:
+              schema:
+                deprecated: false
+              example: "52"
+            ETag:
+              schema:
+                deprecated: false
+              example: W/"34-RTw5tHxjaaqEcEVbesn1aQCzRls"
+            Date:
+              schema:
+                deprecated: false
+              example: Mon, 29 Sep 2025 22:48:34 GMT
+            Connection:
+              schema:
+                deprecated: false
+              example: keep-alive
+            Keep-Alive:
+              schema:
+                deprecated: false
+              example: timeout=5
+          description: 200 OK
+          content:
+            application/json:
+              schema: {}
+              example:
+                success: true
+                message: Logged out successfully
+        "500":
+          headers:
+            Content-Type:
+              schema:
+                type: string
+              example: application/json
+          description: Log Out
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+              example:
+                success: false
+                message: Internal server error
+      requestBody:
+        content:
+          application/json:
+            schema: {}
+            example: {}
+  /api/auth/change-password:
+    parameters: []
+    patch:
+      summary: Change Password
+      tags: *ref_0
+      parameters: []
+      responses:
+        "200":
+          headers:
+            Content-Type:
+              schema:
+                deprecated: false
+              example: application/json
+          description: 200 OK
+          content:
+            application/json:
+              schema: {}
+              example:
+                success: true
+                message: Password updated successfully
+        "400":
+          headers:
+            Content-Type:
+              schema:
+                type: string
+              example: application/json
+          description: 400 Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+              example:
+                success: false
+                message: Enter a new password
+        "401":
+          headers:
+            X-Powered-By:
+              schema:
+                deprecated: false
+              example: Express
+            Content-Type:
+              schema:
+                deprecated: false
+              example: application/json
+            Content-Length:
+              schema:
+                deprecated: false
+              example: "42"
+            ETag:
+              schema:
+                deprecated: false
+              example: W/"2a-H4CLXoxSRMwDtqUCBiDzMCvYSTQ"
+            Date:
+              schema:
+                deprecated: false
+              example: Mon, 29 Sep 2025 23:06:49 GMT
+            Connection:
+              schema:
+                deprecated: false
+              example: keep-alive
+            Keep-Alive:
+              schema:
+                deprecated: false
+              example: timeout=5
+          description: 401 Unauthorized
+          content:
+            application/json:
+              schema: {}
+              example:
+                success: false
+                message: Unauthorized
+        "500":
+          headers:
+            Content-Type:
+              schema:
+                type: string
+              example: application/json
+          description: Change Password
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+              example:
+                success: false
+                message: Internal server error
+  /api/auth/username:
+    parameters: []
+    patch:
+      summary: Update Username
+      tags: *ref_0
+      parameters: []
+      responses:
+        "200":
+          headers:
+            Content-Type:
+              schema:
+                type: string
+              example: application/json
+          description: Update Username
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+              example:
+                success: true
+                message: Username updated successfully
+        "400":
+          headers:
+            Content-Type:
+              schema:
+                type: string
+              example: application/json
+          description: 400 Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+              example:
+                success: false
+                message: Enter a new username
+        "401":
+          headers:
+            Content-Type:
+              schema:
+                type: string
+              example: application/json
+          description: Update Username
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+              example:
+                success: false
+                message: Unauthorized
+        "500":
+          headers:
+            Content-Type:
+              schema:
+                type: string
+              example: application/json
+          description: 500 Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+              example:
+                success: false
+                message: Internal server error
+      requestBody:
+        content:
+          application/json:
+            schema: {}
+            example:
+              newUsername: koolboi
+  /api/@{username}:
+    parameters: []
+    post:
+      summary: Create Post
+      tags: &ref_1
+        - Posts
+      parameters: []
+      responses:
+        "201":
+          headers:
+            Content-Type:
+              schema:
+                type: string
+              example: application/json
+          description: 201 Created
+          content:
+            application/json:
+              schema:
+                type: object
+              example: null
+        "400":
+          headers:
+            Content-Type:
+              schema:
+                deprecated: false
+              example: application/json
+          description: 400 Bad Request
+          content:
+            application/json:
+              schema: {}
+              example:
+                success: false
+                message: Please provide blog title and content
+        "500":
+          headers:
+            Content-Type:
+              schema:
+                type: string
+              example: application/json
+          description: 500 Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+              example:
+                success: false
+                message: Internal server error
+      requestBody:
+        content:
+          application/json:
+            schema: {}
+            example:
+              title: Title 2
+              subtitle: Subtitle 2
+              content: Content 2
+  /api/@sarf01k:
+    parameters: []
+    get:
+      summary: Get All User's Posts
+      tags: *ref_1
+      parameters: []
+      responses:
+        "200":
+          headers:
+            Content-Type:
+              schema:
+                deprecated: false
+              example: application/json
+          description: 200 OK
+          content:
+            application/json:
+              schema: {}
+              example:
+                success: true
+                posts: []
+        "500":
+          headers:
+            Content-Type:
+              schema:
+                type: string
+              example: application/json
+          description: 500 Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+              example:
+                success: false
+                message: Internal server error
+  /api/@sarf01k/68daf4f3ab09f066f023d0fc:
+    parameters: []
+    get:
+      summary: Fetch Post
+      tags: *ref_1
+      parameters: []
+      responses:
+        "200":
+          headers:
+            Content-Type:
+              schema:
+                type: string
+              example: application/json
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  post:
+                    type: string
+              example:
+                success: true
+                post: post
+        "404":
+          headers:
+            Content-Type:
+              schema:
+                deprecated: false
+              example: application/json
+          description: 404 Not Found
+          content:
+            application/json:
+              schema: {}
+              example:
+                success: false
+                message: Post not found
+        "500":
+          headers:
+            Content-Type:
+              schema:
+                type: string
+              example: application/json
+          description: 500 Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+              example:
+                success: false
+                message: Internal server error
+  /api/@koolboi/68caf72996215bc77ee430ca:
+    parameters: []
+    patch:
+      summary: Update Post
+      tags: *ref_1
+      parameters: []
+      responses:
+        "200":
+          headers:
+            Content-Type:
+              schema:
+                deprecated: false
+              example: application/json
+          description: 200 OK
+          content:
+            application/json:
+              schema: {}
+              example:
+                success: true
+                message: Post updated
+                updatedPost: updatedPost
+        "404":
+          headers:
+            Content-Type:
+              schema:
+                deprecated: false
+              example: application/json
+          description: 404 Not Found
+          content:
+            application/json:
+              schema: {}
+              example:
+                success: false
+                message: Post not found
+        "500":
+          headers:
+            Content-Type:
+              schema:
+                type: string
+              example: application/json
+          description: 500 Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+              example:
+                success: false
+                message: Internal server error
+      requestBody:
+        content:
+          application/json:
+            schema: {}
+            example:
+              title: Title 2
+    delete:
+      summary: Delete Post
+      tags: *ref_1
+      parameters: []
+      responses:
+        "200":
+          headers:
+            Content-Type:
+              schema:
+                type: string
+              example: application/json
+          description: Delete Post
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+              example:
+                success: true
+                message: Post deleted
+        "404":
+          headers:
+            Content-Type:
+              schema:
+                deprecated: false
+              example: application/json
+          description: 404 Not Found
+          content:
+            application/json:
+              schema: {}
+              example:
+                success: false
+                message: Post not found
+        "500":
+          headers:
+            Content-Type:
+              schema:
+                type: string
+              example: application/json
+          description: 500 Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+              example:
+                success: false
+                message: Internal server error
+  /api/docs:
+    parameters: []
+    get:
+      summary: Docs
+      tags: []
+      parameters: []
+      responses: {}

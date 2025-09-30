@@ -71,7 +71,7 @@ exports.signUp = async (req, res) => {
       })
     }
 
-    const usernameExists = await User.findOne({ username });
+    const usernameExists = await Username.findOne({ username });
 
     if (usernameExists) {
       return res.status(400).json({

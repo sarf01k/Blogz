@@ -37,11 +37,19 @@ exports.fetchAllPosts = async (req, res) => {
     const { username } = req.params;
 
     const user = await Username.findOne({ username });
+
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "User does not exist"
+      })
+    }
+
     const posts = await Post.find({ author: user.userId });
 
     return res.status(200).json({
       success: true,
-      posts: posts,
+      posts: posts
     });
   } catch (error) {
     console.error(`${error}`);
@@ -63,7 +71,7 @@ exports.fetchPostById = async (req, res) => {
     if (!user || !post) {
       return res.status(404).json({
         success: false,
-        message: "Post not found",
+        message: "Post not found"
       });
     }
 
@@ -99,7 +107,7 @@ exports.updatePost = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Post updated",
-      updatedPost: post,
+      updatedPost: post
     });
   } catch (error) {
     console.error(`${error}`);
