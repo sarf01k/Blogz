@@ -5,7 +5,7 @@ info:
   description: ""
 servers:
   - url: http://localhost:3000
-  - url: https://blogz-neon.vercel.app
+  - url: https://blogz-ea5u.onrender.com
 paths:
   /api/auth/signup:
     parameters: []
